@@ -33,4 +33,9 @@ public class UserController {
     public Page<DataListUsers> listAllUsers(Pageable pagination){
         return userService.findAllUsers(pagination);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<User> listOneUser(@PathVariable Long id){
+        return userService.findOneUser(id);
+    }
 }

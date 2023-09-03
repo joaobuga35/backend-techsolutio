@@ -3,6 +3,8 @@ package tech.solutio.api.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import tech.solutio.api.dto.DataListUsers;
 import tech.solutio.api.dto.UserRequest;
@@ -25,7 +27,15 @@ public class UserService {
         return userRepository.save(newUser);
     }
 
-    public Page<DataListUsers> findAllUsers(Pageable pagination){
+    public Page<DataListUsers> findAllUsers(@PageableDefault(sort = {"name"}) Pageable pagination){
         return userRepository.findAll(pagination).map(DataListUsers::new);
+    }
+
+    public ResponseEntity<User> findOneUser(Long id){
+        User findUser = userRepository.findById(id).orElse(null);
+        if (findUser == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(findUser);
     }
 }
