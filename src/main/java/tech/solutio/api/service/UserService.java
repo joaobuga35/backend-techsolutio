@@ -1,6 +1,8 @@
 package tech.solutio.api.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import tech.solutio.api.dto.DataListUsers;
 import tech.solutio.api.dto.UserRequest;
@@ -23,7 +25,7 @@ public class UserService {
         return userRepository.save(newUser);
     }
 
-    public List<DataListUsers> findAllUsers(){
-        return userRepository.findAll().stream().map(DataListUsers::new).toList();
+    public Page<DataListUsers> findAllUsers(Pageable pagination){
+        return userRepository.findAll(pagination).map(DataListUsers::new);
     }
 }

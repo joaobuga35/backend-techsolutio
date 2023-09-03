@@ -2,6 +2,10 @@ package tech.solutio.api.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import tech.solutio.api.dto.DataListUsers;
@@ -20,13 +24,13 @@ public class UserController {
     private UserService userService;
     @PostMapping
     @Transactional
-    public User register(@RequestBody @Valid UserRequest userData){
+    public ResponseEntity<String> register(@RequestBody @Valid UserRequest userData){
         User newUser = userService.createUser(userData);
-        return newUser;
+        return ResponseEntity.status(HttpStatus.CREATED).body("User created with successful");
     }
 
     @GetMapping
-    public List<DataListUsers> listAllUsers(){
-        return userService.findAllUsers();
+    public Page<DataListUsers> listAllUsers(Pageable pagination){
+        return userService.findAllUsers(pagination);
     }
 }
