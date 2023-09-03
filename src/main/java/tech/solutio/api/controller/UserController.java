@@ -40,13 +40,14 @@ public class UserController {
         return userService.findOneUser(id);
     }
 
-    @PatchMapping("/{id}")
+    @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<User> editUser(@RequestBody @Valid UserEditRequest userData, Long id){
+    public ResponseEntity<User> editUser(@RequestBody @Valid UserEditRequest userData, @PathVariable Long id){
         return userService.editUser(userData,id);
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable Long id){
         userService.deleteUser(id);
     }
