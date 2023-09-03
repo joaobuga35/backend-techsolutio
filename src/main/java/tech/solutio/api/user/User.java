@@ -6,8 +6,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 @Table(name = "users")
 @Entity(name = "user")
 @Getter
@@ -16,9 +14,27 @@ import java.util.UUID;
 @EqualsAndHashCode(of = "id")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     private String email;
     private String password;
+
+    public User(UserRequest userData) {
+        this.name = userData.name();
+        this.email = userData.email();
+        this.password = userData.password();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
 }
