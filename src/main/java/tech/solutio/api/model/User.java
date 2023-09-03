@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import tech.solutio.api.dto.UserEditRequest;
 import tech.solutio.api.dto.UserRequest;
 
 @Table(name = "users")
@@ -37,5 +38,19 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public void updateUser(UserEditRequest userData) {
+        if (userData.name() != null){
+            this.name = userData.name();
+        }
+
+        if (userData.email() != null){
+            this.email = userData.email();
+        }
+
+        if (userData.password() != null){
+            this.password = userData.password();
+        }
     }
 }

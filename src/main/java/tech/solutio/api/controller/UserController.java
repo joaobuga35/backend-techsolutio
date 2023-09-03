@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import tech.solutio.api.dto.DataListUsers;
+import tech.solutio.api.dto.UserEditRequest;
 import tech.solutio.api.model.User;
 import tech.solutio.api.dto.UserRequest;
 import tech.solutio.api.service.UserService;
@@ -38,4 +39,16 @@ public class UserController {
     public ResponseEntity<User> listOneUser(@PathVariable Long id){
         return userService.findOneUser(id);
     }
+
+    @PatchMapping("/{id}")
+    @Transactional
+    public ResponseEntity<User> editUser(@RequestBody @Valid UserEditRequest userData, Long id){
+        return userService.editUser(userData,id);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable Long id){
+        userService.deleteUser(id);
+    }
+
 }

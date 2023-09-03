@@ -7,6 +7,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import tech.solutio.api.dto.DataListUsers;
+import tech.solutio.api.dto.UserEditRequest;
 import tech.solutio.api.dto.UserRequest;
 import tech.solutio.api.model.User;
 import tech.solutio.api.repository.UserRepository;
@@ -37,5 +38,23 @@ public class UserService {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(findUser);
+    }
+
+    public ResponseEntity<User> editUser(UserEditRequest userData, Long id){
+        User findUser = userRepository.findById(id).orElse(null);
+        if (findUser == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        findUser.updateUser(userData);
+        return ResponseEntity.ok(findUser);
+    }
+
+    public ResponseEntity<Object> deleteUser(Long id){
+        User findUser = userRepository.findById(id).orElse(null);
+        if (findUser == null) {
+            return  ResponseEntity.notFound().build();
+        }
+        return  ResponseEntity.noContent().build();
     }
 }
