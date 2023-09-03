@@ -1,10 +1,11 @@
-package tech.solutio.api.user;
+package tech.solutio.api.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import tech.solutio.api.dto.UserRequest;
 
 @Table(name = "users")
 @Entity(name = "user")
