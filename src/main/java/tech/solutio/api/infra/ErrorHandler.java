@@ -2,6 +2,7 @@ package tech.solutio.api.infra;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -16,6 +17,12 @@ public class ErrorHandler {
     public ResponseEntity errorsApp400(MethodArgumentNotValidException ex) {
         var errors = ex.getFieldErrors();
 
-        return ResponseEntity.badRequest().body(errors);
+        return ResponseEntity.badRequest().body(errors.stream().map(ValidationDataErrors::new).toList());
+    }
+
+    private record ValidationDataErrors(String field, String message) {
+        public ValidationDataErrors(FieldError error) {
+            this(error.getField(), error.getDefaultMessage());
+        }
     }
 }
