@@ -14,4 +14,5 @@ public record UserRequest(
         @NotBlank
         String password
 
+
 ) { }

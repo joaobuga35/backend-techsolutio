@@ -9,6 +9,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import tech.solutio.api.domain.products.Product;
 import tech.solutio.api.domain.products.dto.DataProductsList;
+import tech.solutio.api.domain.products.dto.ProductEditRequest;
 import tech.solutio.api.domain.products.dto.ProductRequest;
 import tech.solutio.api.domain.products.repository.ProductRepository;
 
@@ -32,5 +33,16 @@ public class ProductService {
 
     public Product findOneProduct(Long id){
         return productRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    }
+
+    public Product editProduct(ProductEditRequest productData, Long id){
+        Product findProduct = productRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        findProduct.updateProduct(productData);
+        return findProduct;
+    }
+
+    public void deleteProduct(Long id){
+        productRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        productRepository.deleteById(id);
     }
 }

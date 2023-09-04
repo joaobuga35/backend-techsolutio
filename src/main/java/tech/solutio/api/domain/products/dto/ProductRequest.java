@@ -12,6 +12,8 @@ public record ProductRequest(
         String supplier,
         @NotNull
         @DecimalMin(value = "0.0", inclusive = false, message = "The field 'price' most be a positive number")
-        Double price
+        Double price,
+        @NotBlank
+        String image
 ) {
 }

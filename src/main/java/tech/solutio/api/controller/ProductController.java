@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import tech.solutio.api.domain.products.Product;
 import tech.solutio.api.domain.products.dto.DataProductsList;
+import tech.solutio.api.domain.products.dto.ProductEditRequest;
 import tech.solutio.api.domain.products.dto.ProductRequest;
 import tech.solutio.api.service.ProductService;
 
@@ -24,7 +25,6 @@ public class ProductController {
     public ResponseEntity<DataProductsList> register(@RequestBody @Valid ProductRequest productData, UriComponentsBuilder uriBuilder){
         Product newProduct = productService.createProduct(productData);
         var uri = uriBuilder.path("/product/{id}").buildAndExpand(newProduct.getId()).toUri();
-
         return ResponseEntity.created(uri).body(new DataProductsList(newProduct));
     }
 
@@ -37,8 +37,21 @@ public class ProductController {
     @GetMapping("/{id}")
     public ResponseEntity findOneProduct(@PathVariable Long id){
         var product = productService.findOneProduct(id);
-
         return ResponseEntity.ok(product);
     }
+
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity editProduct(@RequestBody @Valid ProductEditRequest productData, @PathVariable Long id){
+        var newProduct = productService.editProduct(productData, id);
+        return ResponseEntity.ok(newProduct);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteProduct(@PathVariable Long id){
+        productService.deleteProduct(id);
+        return ResponseEntity.noContent().build();
+    }
+
 
 }
