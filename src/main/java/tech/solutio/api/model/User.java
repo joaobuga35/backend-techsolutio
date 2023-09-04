@@ -1,5 +1,6 @@
 package tech.solutio.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -20,6 +21,7 @@ public class User {
     private Long id;
     private String name;
     private String email;
+    @JsonIgnore
     private String password;
 
     public User(UserRequest userData) {

@@ -38,15 +38,15 @@ public class UserService {
         return userRepository.findAll(pagination).map(DataListUsers::new);
     }
 
-    public ResponseEntity<User> findOneUser(Long id){
+    public User findOneUser(Long id){
         User findUser = userRepository.findById(id).orElse(null);
         if (findUser == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User Not Found!");
         }
-        return ResponseEntity.ok(findUser);
+        return findUser;
     }
 
-    public ResponseEntity<User> editUser(UserEditRequest userData, Long id){
+    public User editUser(UserEditRequest userData, Long id){
         User findUser = userRepository.findById(id).orElse(null);
         User findEmail = userRepository.findByEmail(userData.email());
         if (findUser == null) {
@@ -58,7 +58,7 @@ public class UserService {
         }
 
         findUser.updateUser(userData);
-        return ResponseEntity.ok(findUser);
+        return findUser;
     }
 
     public void deleteUser(Long id){
