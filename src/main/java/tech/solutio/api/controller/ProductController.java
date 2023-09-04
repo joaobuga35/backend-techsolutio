@@ -30,8 +30,15 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity findAllProducts(Pageable pagination){
-        var products = productService.findAllUsers(pagination);
+        var products = productService.findAllProducts(pagination);
         return ResponseEntity.ok(products);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity findOneProduct(@PathVariable Long id){
+        var product = productService.findOneProduct(id);
+
+        return ResponseEntity.ok(product);
     }
 
 }

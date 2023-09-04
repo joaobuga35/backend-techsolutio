@@ -1,5 +1,6 @@
 package tech.solutio.api.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,11 +23,14 @@ public class ProductService {
 
     public Product createProduct(@Valid ProductRequest productData){
         Product newProduct = new Product(productData);
-
         return productRepository.save(newProduct);
     }
 
-    public Page<DataProductsList> findAllUsers(@PageableDefault(sort = {"name"}) Pageable pagination){
+    public Page<DataProductsList> findAllProducts(@PageableDefault(sort = {"name"}) Pageable pagination){
         return productRepository.findAll(pagination).map(DataProductsList::new);
+    }
+
+    public Product findOneProduct(Long id){
+        return productRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 }
