@@ -1,6 +1,6 @@
-package tech.solutio.api.dto;
+package tech.solutio.api.domain.user.dto;
 
-import tech.solutio.api.model.User;
+import tech.solutio.api.domain.user.User;
 
 public record DataListUsers(Long id, String name, String email) {
     public DataListUsers(User user){

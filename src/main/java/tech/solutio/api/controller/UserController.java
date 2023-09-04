@@ -8,10 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-import tech.solutio.api.dto.DataListUsers;
-import tech.solutio.api.dto.UserEditRequest;
-import tech.solutio.api.model.User;
-import tech.solutio.api.dto.UserRequest;
+import tech.solutio.api.domain.user.dto.DataListUsers;
+import tech.solutio.api.domain.user.dto.UserEditRequest;
+import tech.solutio.api.domain.user.User;
+import tech.solutio.api.domain.user.dto.UserRequest;
 import tech.solutio.api.service.UserService;
 
 

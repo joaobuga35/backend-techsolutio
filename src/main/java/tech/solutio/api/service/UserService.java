@@ -1,20 +1,18 @@
 package tech.solutio.api.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import tech.solutio.api.dto.DataListUsers;
-import tech.solutio.api.dto.UserEditRequest;
-import tech.solutio.api.dto.UserRequest;
-import tech.solutio.api.model.User;
-import tech.solutio.api.repository.UserRepository;
-
-import java.util.List;
+import tech.solutio.api.domain.user.User;
+import tech.solutio.api.domain.user.dto.UserEditRequest;
+import tech.solutio.api.domain.user.repository.UserRepository;
+import tech.solutio.api.domain.user.dto.DataListUsers;
+import tech.solutio.api.domain.user.dto.UserRequest;
 
 @Service
 public class UserService {
@@ -39,20 +37,13 @@ public class UserService {
     }
 
     public User findOneUser(Long id){
-        User findUser = userRepository.findById(id).orElse(null);
-        if (findUser == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User Not Found!");
-        }
+        User findUser = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         return findUser;
     }
 
     public User editUser(UserEditRequest userData, Long id){
-        User findUser = userRepository.findById(id).orElse(null);
+        User findUser = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         User findEmail = userRepository.findByEmail(userData.email());
-        if (findUser == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User Not Found!");
-        }
-
         if (findEmail != null){
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Email already in use");
         }
@@ -62,10 +53,8 @@ public class UserService {
     }
 
     public void deleteUser(Long id){
-        User findUser = userRepository.findById(id).orElse(null);
-        if (findUser == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User Not Found!");
-        }
+        userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+
         userRepository.deleteById(id);
     }
 }

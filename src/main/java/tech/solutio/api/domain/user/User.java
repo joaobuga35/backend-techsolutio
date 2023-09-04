@@ -1,4 +1,4 @@
-package tech.solutio.api.model;
+package tech.solutio.api.domain.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -6,8 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import tech.solutio.api.dto.UserEditRequest;
-import tech.solutio.api.dto.UserRequest;
+import tech.solutio.api.domain.user.dto.UserEditRequest;
+import tech.solutio.api.domain.user.dto.UserRequest;
 
 @Table(name = "users")
 @Entity(name = "user")
