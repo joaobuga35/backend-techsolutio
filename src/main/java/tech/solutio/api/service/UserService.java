@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import tech.solutio.api.domain.user.User;
@@ -17,11 +18,13 @@ import tech.solutio.api.domain.user.dto.UserRequest;
 @Service
 public class UserService {
     private final UserRepository userRepository;
-
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
+    @Autowired
+    public PasswordEncoder passwordEncoder;
 
     public User createUser(UserRequest userData){
         User userEmail = userRepository.findByEmail(userData.email());
@@ -29,6 +32,7 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Email already in use");
         }
         User newUser = new User(userData);
+        newUser.setPassword(passwordEncoder.encode(userData.password()));
         return userRepository.save(newUser);
     }
 
